@@ -17,5 +17,10 @@
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vercel": "^32.4.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "hono-og@0.0.25": "patches/hono-og@0.0.25.patch"
+    }
   }
 }

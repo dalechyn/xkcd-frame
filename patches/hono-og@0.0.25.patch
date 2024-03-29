@@ -1,0 +1,68 @@
+diff --git a/lib/response.js b/lib/response.js
+index 424a6a61a1bfc65460c733bd849fae89787deaf1..09c3326df6161ee5b35df52bdab0025ea7a9d320 100644
+--- a/lib/response.js
++++ b/lib/response.js
+@@ -2,35 +2,35 @@ import { elementToSvg, } from "./utils/elementToSvg.js";
+ import { initializeWasm } from "./utils/initializeWasm.js";
+ import { svgToPng } from "./utils/svgToPng.js";
+ class ImageResponseBase extends Response {
+-    constructor(element, options = {}) {
+-        const { format, headers = {}, status = 200, statusText } = options;
+-        const body = new ReadableStream({
+-            async start(controller) {
+-                await initializeWasm();
+-                const svg = await elementToSvg(element, options);
+-                const data = format === "png"
+-                    ? await svgToPng(svg, options)
+-                    : new TextEncoder().encode(svg);
+-                controller.enqueue(data);
+-                controller.close();
+-            },
+-        });
+-        super(body, {
+-            headers: {
+-                "Content-Type": format === "png" ? "image/png" : "image/svg+xml",
+-                "Cache-Control": options.debug
+-                    ? "no-cache, no-store"
+-                    : "public, immutable, no-transform, max-age=31536000",
+-                ...headers,
+-            },
+-            status,
+-            statusText,
+-        });
+-    }
++  constructor(element, options = {}) {
++    const { format, headers = {}, status = 200, statusText } = options;
++    const body = new ReadableStream({
++      async start(controller) {
++        await initializeWasm();
++        const svg = await elementToSvg(element, options);
++        const data = format === "png"
++          ? await svgToPng(svg, options)
++          : new TextEncoder().encode(svg);
++        controller.enqueue(data);
++        controller.close();
++      },
++    });
++    super(body, {
++      headers: {
++        "Content-Type": format === "png" ? "image/png" : "image/svg+xml",
++        "Cache-Control": options.debug
++          ? "no-cache, no-store"
++          : "test",
++        ...headers,
++      },
++      status,
++      statusText,
++    });
++  }
+ }
+ export const ImageResponse = (await (() => {
+-    if (process.env.VERCEL_URL)
+-        return import("./exports/vercel.js").then((m) => m.ImageResponse);
+-    return ImageResponseBase;
++  if (process.env.VERCEL_URL)
++    return import("./exports/vercel.js").then((m) => m.ImageResponse);
++  return ImageResponseBase;
+ })());
+ //# sourceMappingURL=response.js.map
