@@ -8,7 +8,7 @@ export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   imageAspectRatio: '1:1',
-  imageOptions: {height: 1000, width: 1000, fonts: []}
+  imageOptions: {height: 1000, width: 1000, fonts: [], headers: {'Cache-Control': 'max-age=0'}}
 })
 
 const MAX_XKCD_POST_ID = 2906
@@ -31,7 +31,7 @@ type XkcdPost = {
   day: string
 }
 
-app.get('/', (c) => c.redirect(`/post/${getRandomXkcdId()}`))
+app.get('/', (c) => c.redirect(`${APP_URL}/api/post/${getRandomXkcdId()}`))
 
 app.frame('/post/:id', async (c) => {
   const id = Number(c.req.param('id'))
