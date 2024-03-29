@@ -8,6 +8,7 @@ export const app = new Frog({
   assetsPath: '/',
   basePath: '/api',
   imageAspectRatio: '1:1',
+headers: {'Cache-Control': 'max-age=0'},
   imageOptions: {height: 1000, width: 1000, fonts: [], headers: {'Cache-Control': 'max-age=0'}}
 })
 
